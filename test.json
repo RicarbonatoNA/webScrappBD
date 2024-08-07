@@ -1,0 +1,99 @@
+{
+    "pages": [
+        {
+            "url": "https://www.cyberpuerta.mx",
+            "actions": [
+                {
+                    "action": "input",
+                    "by": "xpath",
+                    "value": "//input[@name='searchparam']",
+                    "input_value": "Xbox",
+                    "wait": 2
+                },
+                {
+                    "action": "keyboard",
+                    "key": "enter",
+                    "wait": 2
+                }
+            ],
+            "elements": {
+                "product": {
+                    "by": "xpath",
+                    "value": "//div[@class='emproduct_right_artnum']"
+                },
+                "price": {
+                    "by": "xpath",
+                    "value": "//label[@class='price']"
+                },
+                "delivery": {
+                    "by": "xpath",
+                    "value": "//span[@class='deliveryvalue']"
+                }
+            }
+        },
+        {
+            "url": "https://www.mercadolibre.com.mx",
+            "actions": [
+                {
+                    "action": "input",
+                    "by": "xpath",
+                    "value": "//input[@class='nav-search-input']",
+                    "input_value": "Laptop",
+                    "wait": 2
+                },
+                {
+                    "action": "click",
+                    "by": "xpath",
+                    "value": "//button[@class='nav-search-btn']",
+                    "wait": 5
+                }
+            ],
+            "elements": {
+                "product": {
+                    "by": "xpath",
+                    "value": "//h2[@class='ui-search-item__title']"
+                },
+                "price": {
+                    "by": "xpath",
+                    "value": "//span[@class='andes-money-amount__fraction']"
+                },
+                "delivery": {
+                    "by": "xpath",
+                    "value": "//span[@class='ui-pb-highlight']"
+                }
+            }
+        },
+        {
+            "url": "https://www.amazon.com.mx/",
+            "actions": [
+                {
+                    "action": "input",
+                    "by": "xpath",
+                    "value": "//input[@id='twotabsearchtextbox']",
+                    "input_value": "Smartphone",
+                    "wait": 2
+                },
+                {
+                    "action": "click",
+                    "by": "xpath",
+                    "value": "//input[@id='nav-search-submit-button']",
+                    "wait": 5
+                }
+            ],
+            "elements": {
+                "product": {
+                    "by": "xpath",
+                    "value": "//span[@class='a-size-base-plus a-color-base a-text-normal']"
+                },
+                "price": {
+                    "by": "xpath",
+                    "value": "//span[@class='a-price-whole']"
+                },
+                "delivery": {
+                    "by": "xpath",
+                    "value": "//span[@class='a-color-base a-text-bold']"
+                }
+            }
+        }
+    ]
+}
