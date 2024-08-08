@@ -13,23 +13,30 @@
                 {
                     "action": "keyboard",
                     "key": "enter",
-                    "wait": 2
-                }
-            ],
-            "elements": {
-                "product": {
-                    "by": "xpath",
-                    "value": "//div[@class='emproduct_right_artnum']"
+                    "wait": 5
                 },
-                "price": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//label[@class='price']"
+                    "value": "//div[@class='emproduct_right_artnum']",
+                    "data_key": "product_page_1",
+                    "wait": 1
                 },
-                "delivery": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//span[@class='deliveryvalue']"
+                    "value": "//label[@class='price']",
+                    "data_key": "price_page_1",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='deliveryvalue']",
+                    "data_key": "delivery_page_1",
+                    "wait": 1
                 }
-            }
+            ]
         },
         {
             "url": "https://www.mercadolibre.com.mx",
@@ -46,22 +53,56 @@
                     "by": "xpath",
                     "value": "//button[@class='nav-search-btn']",
                     "wait": 5
-                }
-            ],
-            "elements": {
-                "product": {
-                    "by": "xpath",
-                    "value": "//h2[@class='ui-search-item__title']"
                 },
-                "price": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//span[@class='andes-money-amount__fraction']"
+                    "value": "//h2[@class='ui-search-item__title']",
+                    "data_key": "product_page_1",
+                    "wait": 1
                 },
-                "delivery": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//span[@class='ui-pb-highlight']"
+                    "value": "//span[@class='andes-money-amount__fraction']",
+                    "data_key": "price_page_1",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='ui-pb-highlight']",
+                    "data_key": "delivery_page_1",
+                    "wait": 1
+                },
+                {
+                    "action": "click",
+                    "by": "xpath",
+                    "value": "//a[@class='andes-pagination__link']",
+                    "wait": 5
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//h2[@class='ui-search-item__title']",
+                    "data_key": "product_page_2",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='andes-money-amount__fraction']",
+                    "data_key": "price_page_2",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='ui-pb-highlight']",
+                    "data_key": "delivery_page_2",
+                    "wait": 1
                 }
-            }
+            ]
         },
         {
             "url": "https://www.amazon.com.mx/",
@@ -78,22 +119,56 @@
                     "by": "xpath",
                     "value": "//input[@id='nav-search-submit-button']",
                     "wait": 5
-                }
-            ],
-            "elements": {
-                "product": {
-                    "by": "xpath",
-                    "value": "//span[@class='a-size-base-plus a-color-base a-text-normal']"
                 },
-                "price": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//span[@class='a-price-whole']"
+                    "value": "//span[@class='a-size-base-plus a-color-base a-text-normal']",
+                    "data_key": "product_page_1",
+                    "wait": 1
                 },
-                "delivery": {
+                {
+                    "action": "extract",
                     "by": "xpath",
-                    "value": "//span[@class='a-color-base a-text-bold']"
+                    "value": "//span[@class='a-price-whole']",
+                    "data_key": "price_page_1",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='a-color-base a-text-bold']",
+                    "data_key": "delivery_page_1",
+                    "wait": 1
+                },
+                {
+                    "action": "click",
+                    "by": "xpath",
+                    "value": "//a[@class='s-pagination-item s-pagination-button']",
+                    "wait": 5
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='a-size-base-plus a-color-base a-text-normal']",
+                    "data_key": "product_page_2",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='a-price-whole']",
+                    "data_key": "price_page_2",
+                    "wait": 1
+                },
+                {
+                    "action": "extract",
+                    "by": "xpath",
+                    "value": "//span[@class='a-color-base a-text-bold']",
+                    "data_key": "delivery_page_2",
+                    "wait": 1
                 }
-            }
+            ]
         }
     ]
 }

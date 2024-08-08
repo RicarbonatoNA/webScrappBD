@@ -61,7 +61,7 @@ class WebScraper:
             print(f"Error finding elements: {e}")
             return []
 
-    def performActions(self, actions):
+    def performActions(self, actions, data):
         for action in actions:
             try:
                 action_type = action.get("action")
@@ -71,6 +71,8 @@ class WebScraper:
                 if action_type == "input" and by and value:
                     elements = self.findElements(by, value)
                     if elements:
+                        wait = WebDriverWait(self.driver, 10)
+                        wait.until(EC.element_to_be_clickable((By.XPATH, value)))
                         elements[0].clear()
                         elements[0].send_keys(action.get("input_value", ""))
                     else:
@@ -84,25 +86,26 @@ class WebScraper:
                 elif action_type == "click" and by and value:
                     elements = self.findElements(by, value)
                     if elements:
+                        wait = WebDriverWait(self.driver, 10)
+                        wait.until(EC.element_to_be_clickable((By.XPATH, value)))
                         elements[0].click()
                     else:
                         print(f"Element not found for 'click' action: {value}")
-                elif action_type == "find_elements" and by and value:
-                    foundElements = self.findElements(by, value)
-                    data = {}
-                    for column in action.get("columns", []):
-                        header = column.get("header")
-                        selector_pattern = column.get("selector_pattern")
-                        data[header] = [element.find_element(By.CSS_SELECTOR, selector_pattern).text if element.find_element(By.CSS_SELECTOR, selector_pattern).text else None for element in foundElements]
-                    print(f"Data found for 'find_elements': {data}")
-                else:
-                    print(f"Unrecognized action or missing data: {action_type}")
+                elif action_type == "extract" and by and value:
+                    elements = self.findElements(by, value)
+                    if elements:
+                        data_key = action.get("data_key", "unknown")
+                        if data_key not in data:
+                            data[data_key] = []
+                        data[data_key].extend([element.text for element in elements])
+                    else:
+                        print(f"Element not found for 'extract' action: {value}")
 
                 sleep(action.get("wait", 1))  # Wait between actions
             except KeyError as e:
                 print(f"Missing key in action: {e}")
             except Exception as e:
-                print(f"Error performing action: {e}")
+                print(f"Error performing action: {str(e)}")
 
     def scrapePage(self, url, elements, headers=None, cookies=None, actions=None):
         self.driver.get(url)
@@ -113,10 +116,10 @@ class WebScraper:
 
         wait = WebDriverWait(self.driver, 20)
 
-        if actions:
-            self.performActions(actions)
-
         data = {}
+        if actions:
+            self.performActions(actions, data)
+
         if elements:
             try:
                 for elementName, selector in elements.items():
@@ -125,7 +128,9 @@ class WebScraper:
                             wait_condition = getattr(EC, selector['wait_condition'])((By.XPATH, selector['value']))
                             wait.until(wait_condition)
                         foundElements = self.findElements(selector['by'], selector['value'])
-                        data[elementName] = [element.text if element.text else None for element in foundElements]
+                        if elementName not in data:
+                            data[elementName] = []
+                        data[elementName].extend([element.text if element.text else None for element in foundElements])
                         print(f"Element '{elementName}': {data[elementName]}")
                     except Exception as e:
                         print(f"Could not find element '{elementName}' on the page: {str(e)}")
@@ -136,16 +141,17 @@ class WebScraper:
         return data
 
     def saveData(self, data, url, outputFilename=None):
-        # Verifica si las listas en data tienen la misma longitud
-        lengths = {key: len(value) for key, value in data.items()}
-        max_length = max(lengths.values(), default=0)
+        # Verify extracted data before converting to DataFrame
+        for key, value in data.items():
+            print(f"{key}: {len(value)}")
 
-        # Ajusta todas las listas para que tengan la misma longitud
+        # Make all arrays the same length
+        max_length = max(len(values) for values in data.values())
         for key in data:
-            if len(data[key]) < max_length:
-                data[key].extend([None] * (max_length - len(data[key])))
+            while len(data[key]) < max_length:
+                data[key].append(None)
 
-        # Convierte data a DataFrame y guarda en un archivo Excel si los datos son válidos
+        # Convert data to DataFrame and save to Excel file if valid data exists
         if all(len(value) > 0 for value in data.values()):
             df = pd.DataFrame(data)
             if not outputFilename:
